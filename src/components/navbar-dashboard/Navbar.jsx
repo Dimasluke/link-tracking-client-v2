@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, NavItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import TeamDropdown from './TeamDropdown';
 
@@ -19,6 +20,11 @@ function Navigation(props) {
           </NavItem>
           <NavItem>
             <TeamDropdown />
+          </NavItem>
+        </Nav>
+        <Nav className="ml-auto">
+          <NavItem>
+            <Link to="/team-management">My Teams</Link>
           </NavItem>
         </Nav>
       </Navbar>

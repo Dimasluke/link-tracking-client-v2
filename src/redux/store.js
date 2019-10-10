@@ -7,6 +7,7 @@ import createUrl from './reducers/url-create-reducer';
 import getUrls from './reducers/url-list-reducer';
 import updateUrl from './reducers/url-update-reducer';
 import deleteUrl from './reducers/url-delete-reducer';
+import getTags from './reducers/tags-list-reducer';
 import user from './reducers/user-reducer';
 import visits from './reducers/visit-filter-reducer';
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   getUrls,
   updateUrl,
   deleteUrl,
+  getTags,
   user,
   visits
 });

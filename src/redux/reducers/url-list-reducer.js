@@ -45,7 +45,7 @@ function reducer(state = initialState, action) {
   }
 }
 
-export function handleUrl(alias) {
+export function handleUrlSelect(alias) {
   return {
     type: 'SET_URL',
     payload: alias

@@ -8,7 +8,7 @@ export default async function createUrl(alias, destination, tags, owner) {
     tags,
     owner
   };
-
+  console.log(argins);
   try {
     await axios.request({
       url: '/v1/urls',

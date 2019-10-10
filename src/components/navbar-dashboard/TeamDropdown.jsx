@@ -55,11 +55,11 @@ class TeamDropdown extends Component {
 
     return (
       <Dropdown size="sm" isOpen={isOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
+        <DropdownToggle>
           {isOpen ? (
-            <FontAwesome style={{ color: 'blue' }} name="chevron-down" />
+            <FontAwesome name="chevron-down" />
           ) : (
-            <FontAwesome style={{ color: 'blue' }} name="chevron-right" />
+            <FontAwesome name="chevron-right" />
           )}
         </DropdownToggle>
         <DropdownMenu>

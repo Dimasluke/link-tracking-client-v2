@@ -1,6 +1,7 @@
 const initialState = {
-  alias: undefined,
-  destination: undefined,
+  alias: '',
+  destination: '',
+  tagInput: '',
   tags: [],
   message: undefined,
   loading: false,
@@ -9,6 +10,7 @@ const initialState = {
 
 const SET_CREATE_ALIAS = 'SET_CREATE_ALIAS';
 const SET_CREATE_DESTINATION = 'SET_CREATE_DESTINATION';
+const SET_CREATE_TAG_INPUT = 'SET_CREATE_TAG_INPUT';
 const SET_CREATE_TAGS = 'SET_CREATE_TAGS';
 const SET_CREATE_MESSAGE = 'SET_CREATE_MESSAGE';
 const SET_CREATE_LOADING = 'SET_CREATE_LOADING';
@@ -21,6 +23,9 @@ function reducer(state = initialState, action) {
 
     case SET_CREATE_DESTINATION:
       return { ...state, destination: action.payload };
+
+    case SET_CREATE_TAG_INPUT:
+      return { ...state, tagInput: action.payload };
 
     case SET_CREATE_TAGS:
       return { ...state, tags: action.payload };
@@ -50,6 +55,13 @@ export function handleDestination(destination) {
   return {
     type: 'SET_CREATE_DESTINATION',
     payload: destination
+  };
+}
+
+export function handleTagInput(title) {
+  return {
+    type: 'SET_CREATE_TAG_INPUT',
+    payload: title
   };
 }
 
