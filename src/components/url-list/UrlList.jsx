@@ -16,7 +16,11 @@ function UrlList(props) {
       />
     );
   });
-  return <ListGroup>{mappedUrls}</ListGroup>;
+  return (
+    <ListGroup style={{ maxHeight: '75vh', overflowY: 'auto' }}>
+      {mappedUrls}
+    </ListGroup>
+  );
 }
 
 const mapStateToProps = state => {

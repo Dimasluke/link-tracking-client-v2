@@ -23,6 +23,7 @@ import UrlCreate from '../components/url-create/UrlCreate';
 import UrlUpdate from '../components/url-update/UrlUpdate';
 import UrlMenu from '../components/url-menu/UrlMenu';
 import UrlView from '../components/url-view/UrlView';
+import Footer from '../components/footer/Footer';
 
 const domain = 'http://localhost:3000';
 
@@ -112,7 +113,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ maxHeight: '100vh' }}>
         <Navbar />
         <Container>
           <Row>
@@ -120,7 +121,7 @@ class Dashboard extends Component {
               <Row>
                 <UrlMenu />
               </Row>
-              <Row style={{ display: 'inherit' }}>
+              <Row style={{ display: 'inherit', overflowY: 'auto' }}>
                 <UrlList />
               </Row>
             </Col>
@@ -131,6 +132,7 @@ class Dashboard extends Component {
             </Col>
           </Row>
         </Container>
+        <Footer />
         {/* ============== Modals ================ */}
         <UrlCreate />
         <UrlUpdate />
