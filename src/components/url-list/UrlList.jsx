@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ListGroup, Row, Col } from 'reactstrap';
+import { ListGroup } from 'reactstrap';
 import UrlCard from '../url-card/UrlCard';
 
 function UrlList(props) {

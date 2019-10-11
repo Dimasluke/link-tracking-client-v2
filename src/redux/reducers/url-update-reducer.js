@@ -2,6 +2,7 @@ const initialState = {
   updatedAlias: undefined,
   updatedDestination: undefined,
   updatedTags: undefined,
+  tagInput: undefined,
   message: undefined,
   display: false,
   loading: false
@@ -10,6 +11,7 @@ const initialState = {
 const SET_UPDATE_ALIAS = 'SET_UPDATE_ALIAS';
 const SET_UPDATE_DESTINATION = 'SET_UPDATE_DESTINATION';
 const SET_UPDATE_TAGS = 'SET_UPDATE_TAGS';
+const SET_UPDATE_TAG_INPUT = 'SET_UPDATE_TAG_INPUT';
 const SET_UPDATE_MESSAGE = 'SET_UPDATE_MESSAGE';
 const SET_UPDATE_LOADING = 'SET_UPDATE_LOADING';
 const SET_UPDATE_DISPLAY = 'SET_UPDATE_DISPLAY';
@@ -24,6 +26,9 @@ function reducer(state = initialState, action) {
 
     case SET_UPDATE_TAGS:
       return { ...state, updatedTags: action.payload };
+
+    case SET_UPDATE_TAG_INPUT:
+      return { ...state, tagInput: action.payload };
 
     case SET_UPDATE_DISPLAY:
       return { ...state, display: action.payload };
@@ -57,6 +62,13 @@ export function handleUpdatedTags(updatedTags) {
   return {
     type: 'SET_UPDATE_TAGS',
     payload: updatedTags
+  };
+}
+
+export function handleUpdateTagInput(title) {
+  return {
+    type: 'SET_UPDATE_TAG_INPUT',
+    payload: title
   };
 }
 

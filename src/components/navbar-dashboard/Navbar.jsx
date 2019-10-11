@@ -6,7 +6,6 @@ import TeamDropdown from './TeamDropdown';
 
 function Navigation(props) {
   const { selectedTeam } = props;
-  console.log(selectedTeam);
 
   return (
     <div>

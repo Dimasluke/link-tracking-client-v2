@@ -126,15 +126,6 @@ class UrlCreate extends Component {
       handleDisplay
     } = this.props;
 
-    const toggle = async function() {
-      handleAlias('');
-      handleDestination('');
-      handleTagInput('');
-      handleTags([]);
-      handleMessage('');
-      handleDisplay(!display);
-    };
-
     const handleAddTag = async function(e) {
       e.preventDefault();
 
@@ -156,8 +147,8 @@ class UrlCreate extends Component {
     });
 
     return (
-      <Modal isOpen={display} toggle={() => toggle()}>
-        <ModalHeader toggle={() => toggle()}>Create URL</ModalHeader>
+      <Modal isOpen={display} toggle={() => this.toggle()}>
+        <ModalHeader toggle={() => this.toggle()}>Create URL</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
@@ -211,7 +202,7 @@ class UrlCreate extends Component {
           <Button onClick={() => this.handleSubmit()}>
             {loading ? <Spinner size="sm" /> : 'Submit'}
           </Button>
-          <Button onClick={() => toggle()}>Cancel</Button>
+          <Button onClick={() => this.toggle()}>Cancel</Button>
         </ModalFooter>
       </Modal>
     );

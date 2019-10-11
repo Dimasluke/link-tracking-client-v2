@@ -1,5 +1,6 @@
 /* eslint-disable no-shadow */
 import React, { Component } from 'react';
+import { Container, Col, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { handleUser } from '../redux/reducers/user-reducer';
@@ -7,6 +8,9 @@ import { handleTeams } from '../redux/reducers/team-list-reducer';
 import currentSession from '../lib/current-session';
 import checkTokenExpiration from '../lib/check-token-expiration';
 import getTeams from '../lib/teams-get';
+import Navbar from '../components/navbar-team-management/Navbar';
+import TeamMenu from '../components/team-menu/TeamMenu';
+import TeamList from '../components/team-list/TeamList';
 
 const domain = 'http://localhost:3000';
 
@@ -33,13 +37,32 @@ class TeamManagement extends Component {
       }
 
       const teams = await getTeams(user.user.username);
-
+      console.log(teams);
       handleTeams(teams);
     }
   }
 
   render() {
-    return <div>hello</div>;
+    return (
+      <div>
+        <Navbar />
+        <Container>
+          <Row>
+            <Col xs="5">
+              <Row>
+                <TeamMenu />
+              </Row>
+              <Row style={{ display: 'inherit', overflowY: 'auto' }}>
+                <TeamList />
+              </Row>
+            </Col>
+            <Col xs="7">
+              <Row></Row>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
   }
 }
 
