@@ -6,7 +6,8 @@ import _ from 'lodash';
 import { handleUser, handleLoading } from '../redux/reducers/user-reducer';
 import {
   handleTeams,
-  handleTeamsSelect
+  handleTeamsSelect,
+  handleTeamsLoading
 } from '../redux/reducers/team-list-reducer';
 import { handleTagsList } from '../redux/reducers/tags-list-reducer';
 import { handleUrls, handleResetUrl } from '../redux/reducers/url-list-reducer';
@@ -25,7 +26,7 @@ import UrlMenu from '../components/url-menu/UrlMenu';
 import UrlView from '../components/url-view/UrlView';
 import Footer from '../components/footer/Footer';
 
-const domain = 'http://localhost:3000';
+const domain = 'http://fanza-luke.ngrok.io';
 
 class Dashboard extends Component {
   async componentDidMount() {
@@ -51,7 +52,8 @@ class Dashboard extends Component {
       handleTeamsSelect,
       handleUrls,
       handleVisits,
-      handleTagsList
+      handleTagsList,
+      handleTeamsLoading
     } = this.props;
 
     if (!_.isEqual(user, prevProps.user)) {
@@ -60,6 +62,7 @@ class Dashboard extends Component {
       }
 
       if (user.user.username) {
+        handleTeamsLoading(true);
         const teams = await getTeams(user.user.username);
 
         const teamId = localStorage.getItem('teamId');
@@ -72,10 +75,15 @@ class Dashboard extends Component {
             return team.id === teamId;
           });
 
-          urls = await getUrls(team[0].title);
-          tags = await getTags(team[0].title);
+          if (team[0]) {
+            urls = await getUrls(team[0].title);
+            tags = await getTags(team[0].title);
 
-          handleTeamsSelect(team[0]);
+            handleTeamsSelect(team[0]);
+          } else {
+            tags = await getTags(user.user.username);
+            urls = await getUrls(user.user.username);
+          }
         } else {
           tags = await getTags(user.user.username);
           urls = await getUrls(user.user.username);
@@ -84,6 +92,7 @@ class Dashboard extends Component {
         handleTeams(teams);
         handleUrls(urls);
         handleTagsList(tags);
+        handleTeamsLoading(false);
       }
     }
 
@@ -158,6 +167,7 @@ export default connect(
     handleUrls,
     handleVisits,
     handleResetUrl,
-    handleTagsList
+    handleTagsList,
+    handleTeamsLoading
   }
 )(Dashboard);

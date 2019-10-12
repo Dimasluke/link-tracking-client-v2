@@ -10,7 +10,7 @@ export default async function updateTeam(
 ) {
   const argins = {
     updatedTitle,
-    updatedCaptain,
+    updatedOwner: updatedCaptain,
     updatedAdmins,
     updatedMembers
   };

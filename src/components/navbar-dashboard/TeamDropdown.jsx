@@ -5,10 +5,14 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Spinner
 } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
-import { handleTeamsSelect } from '../../redux/reducers/team-list-reducer';
+import {
+  handleTeamsSelect,
+  handleResetTeam
+} from '../../redux/reducers/team-list-reducer';
 import { handleResetUrl } from '../../redux/reducers/url-list-reducer';
 
 class TeamDropdown extends Component {
@@ -22,16 +26,9 @@ class TeamDropdown extends Component {
   }
 
   async resetTeam() {
-    const { handleTeamsSelect, handleResetUrl } = this.props;
+    const { handleResetTeam, handleResetUrl } = this.props;
 
-    handleTeamsSelect({
-      id: undefined,
-      title: undefined,
-      captain: undefined,
-      admins: undefined,
-      members: undefined
-    });
-
+    handleResetTeam();
     handleResetUrl();
   }
 
@@ -43,7 +40,7 @@ class TeamDropdown extends Component {
 
   render() {
     const { isOpen } = this.state;
-    const { teams, handleTeamsSelect } = this.props;
+    const { loading, teams, handleTeamsSelect } = this.props;
 
     const mappedTeams = teams.map(team => {
       return (
@@ -53,15 +50,21 @@ class TeamDropdown extends Component {
       );
     });
 
+    const handleIcon = function() {
+      if (loading) {
+        return <Spinner size="sm" />;
+      }
+
+      if (isOpen && !loading) {
+        return <FontAwesome name="chevron-down" />;
+      }
+
+      return <FontAwesome name="chevron-right" />;
+    };
+
     return (
       <Dropdown size="sm" isOpen={isOpen} toggle={this.toggle}>
-        <DropdownToggle>
-          {isOpen ? (
-            <FontAwesome name="chevron-down" />
-          ) : (
-            <FontAwesome name="chevron-right" />
-          )}
-        </DropdownToggle>
+        <DropdownToggle>{handleIcon()}</DropdownToggle>
         <DropdownMenu>
           <DropdownItem header>My Teams</DropdownItem>
           <DropdownItem divider />
@@ -75,11 +78,12 @@ class TeamDropdown extends Component {
 
 const mapStateToProps = state => {
   return {
-    teams: state.getTeams.teams
+    teams: state.getTeams.teams,
+    loading: state.getTeams.loading
   };
 };
 
 export default connect(
   mapStateToProps,
-  { handleTeamsSelect, handleResetUrl }
+  { handleTeamsSelect, handleResetUrl, handleResetTeam }
 )(TeamDropdown);

@@ -11,8 +11,12 @@ import getTeams from '../lib/teams-get';
 import Navbar from '../components/navbar-team-management/Navbar';
 import TeamMenu from '../components/team-menu/TeamMenu';
 import TeamList from '../components/team-list/TeamList';
+import Footer from '../components/footer/Footer';
+import TeamCreate from '../components/team-create/TeamCreate';
+import TeamUpdate from '../components/team-update/TeamUpdate';
+import TeamView from '../components/team-view/TeamView';
 
-const domain = 'http://localhost:3000';
+const domain = 'http://fanza-luke.ngrok.io';
 
 class TeamManagement extends Component {
   async componentDidMount() {
@@ -29,7 +33,7 @@ class TeamManagement extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    const { user, handleTeams } = this.props;
+    const { user, teams, handleTeams } = this.props;
 
     if (!_.isEqual(user, prevProps.user)) {
       if (!user) {
@@ -37,8 +41,11 @@ class TeamManagement extends Component {
       }
 
       const teams = await getTeams(user.user.username);
-      console.log(teams);
       handleTeams(teams);
+    }
+
+    if (!_.isEqual(teams, prevProps.teams)) {
+      handleTeams(await getTeams(user.user.username));
     }
   }
 
@@ -57,10 +64,16 @@ class TeamManagement extends Component {
               </Row>
             </Col>
             <Col xs="7">
-              <Row></Row>
+              <Row>
+                <TeamView />
+              </Row>
             </Col>
           </Row>
         </Container>
+        <Footer />
+        {/* ============== Modals ================ */}
+        <TeamCreate />
+        <TeamUpdate />
       </div>
     );
   }
@@ -68,7 +81,8 @@ class TeamManagement extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user.user
+    user: state.user.user,
+    teams: state.getTeams.teams
   };
 };
 

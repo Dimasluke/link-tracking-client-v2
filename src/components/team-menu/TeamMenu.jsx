@@ -8,9 +8,11 @@ function TeamMenu(props) {
   const { handleDisplay } = props;
 
   return (
-    <Col>
+    <Col style={{ marginTop: '20px' }}>
       <Row>
-        <Button onClick={() => handleDisplay(true)}>Create</Button>
+        <Button onClick={() => handleDisplay(true)} color="primary">
+          Create
+        </Button>
       </Row>
     </Col>
   );

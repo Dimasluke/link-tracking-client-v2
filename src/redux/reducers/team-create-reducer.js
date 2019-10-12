@@ -1,5 +1,5 @@
 const initialState = {
-  title: undefined,
+  title: '',
   owner: undefined,
   display: false,
   loading: false

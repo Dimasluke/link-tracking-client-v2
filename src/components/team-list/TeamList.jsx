@@ -7,10 +7,10 @@ function TeamList(props) {
   const { teams } = props;
 
   const mappedTeams = teams.map(team => {
-    return <TeamCard key={team.id} title={team.title} />;
+    return <TeamCard key={team.id} team={team} />;
   });
 
-  return <ListGroup>{mappedTeams}</ListGroup>;
+  return <ListGroup style={{ marginTop: '20px' }}>{mappedTeams}</ListGroup>;
 }
 
 const mapStateToProps = state => {

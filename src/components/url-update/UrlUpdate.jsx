@@ -25,7 +25,8 @@ import {
   handleUpdatedAlias,
   handleUpdatedDestination,
   handleUpdatedTags,
-  handleUpdateTagInput
+  handleUpdateTagInput,
+  handleLoading
 } from '../../redux/reducers/url-update-reducer';
 import { handleUrls } from '../../redux/reducers/url-list-reducer';
 import { handleTagsList } from '../../redux/reducers/tags-list-reducer';
@@ -75,8 +76,11 @@ class UrlUpdate extends Component {
       updatedDestination,
       updatedTags,
       handleUrls,
-      handleTagsList
+      handleTagsList,
+      handleLoading
     } = this.props;
+
+    handleLoading(true);
 
     const owner = selectedTeam.id
       ? { type: 'team', id: selectedTeam.title }
@@ -89,16 +93,20 @@ class UrlUpdate extends Component {
     await updateUrl(selectedUrl.alias, updatedAlias, updatedDestination, tags);
     handleUrls(await getUrls(owner.id));
     handleTagsList(await getTags(owner.id));
+    handleLoading(false);
     this.toggle();
   }
 
   render() {
     const {
       display,
+      loading,
       updatedAlias,
       updatedDestination,
       updatedTags,
       tagInput,
+      handleUpdatedAlias,
+      handleUpdatedDestination,
       handleUpdatedTags,
       handleUpdateTagInput
     } = this.props;
@@ -128,6 +136,71 @@ class UrlUpdate extends Component {
     return (
       <Modal isOpen={display} toggle={() => this.toggle()}>
         <ModalHeader toggle={() => this.toggle()}>Update URL</ModalHeader>
+        <ModalBody>
+          <Form>
+            <FormGroup>
+              <Label for="url-update-alias">Alias (Optional)</Label>
+              <Input
+                type="text"
+                name="updatedAlias"
+                id="url-update-alias"
+                bsSize="sm"
+                value={updatedAlias}
+                onChange={e => handleUpdatedAlias(e.target.value)}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="url-update-destination">Destination (Required)</Label>
+              <Input
+                type="text"
+                name="updatedDestination"
+                id="url-update-destination"
+                bsSize="sm"
+                value={updatedDestination}
+                onChange={e => handleUpdatedDestination(e.target.value)}
+              />
+            </FormGroup>
+          </Form>
+          <Form onSubmit={e => handleAddTag(e)}>
+            <FormGroup>
+              <Col>
+                <Row>
+                  <Label for="url-update-tags">Tags</Label>
+                </Row>
+                <Row style={{ display: 'flex', flexWrap: 'nowrap' }}>
+                  <Input
+                    type="text"
+                    name="updatedTags"
+                    id="url-update-tags"
+                    bsSize="sm"
+                    value={tagInput}
+                    onChange={e => handleUpdateTagInput(e.target.value)}
+                  />
+                  <Button
+                    type="submit"
+                    size="sm"
+                    onClick={e => handleAddTag(e)}
+                  >
+                    Add
+                  </Button>
+                </Row>
+              </Col>
+            </FormGroup>
+          </Form>
+          {mappedTags}
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={() => this.toggle()} color="secondary">
+            Close
+          </Button>
+          <Button
+            onClick={() => this.handleSubmit()}
+            color="primary"
+            style={{ width: '80px' }}
+          >
+            {loading ? <Spinner size="sm" /> : 'Submit'}
+          </Button>
+        </ModalFooter>
       </Modal>
     );
   }
@@ -141,7 +214,9 @@ const mapStateToProps = state => {
     updatedAlias: state.updateUrl.updatedAlias,
     updatedDestination: state.updateUrl.updatedDestination,
     updatedTags: state.updateUrl.updatedTags,
-    display: state.updateUrl.display
+    tagInput: state.updateUrl.tagInput,
+    display: state.updateUrl.display,
+    loading: state.updateUrl.loading
   };
 };
 
@@ -154,6 +229,7 @@ export default connect(
     handleUpdatedTags,
     handleUpdateTagInput,
     handleUrls,
-    handleTagsList
+    handleTagsList,
+    handleLoading
   }
 )(UrlUpdate);

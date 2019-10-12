@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ListGroup } from 'reactstrap';
+import _ from 'lodash';
 import UrlCard from '../url-card/UrlCard';
 
 function UrlList(props) {
   const { urls } = props;
 
-  const mappedUrls = urls.map(url => {
+  const mappedUrls = _.orderBy(urls, ['createdAt'], ['desc']).map(url => {
     return (
       <UrlCard
         key={url.id}
+        id={url.id}
         alias={url.alias}
         tags={url.tags}
         destination={url.destination}
@@ -17,7 +19,9 @@ function UrlList(props) {
     );
   });
   return (
-    <ListGroup style={{ maxHeight: '75vh', overflowY: 'auto' }}>
+    <ListGroup
+      style={{ maxHeight: '73vh', overflowY: 'auto', marginTop: '20px' }}
+    >
       {mappedUrls}
     </ListGroup>
   );

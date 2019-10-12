@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import {
   Container,
@@ -15,6 +16,13 @@ import {
   handleStart,
   handleEnd
 } from '../../redux/reducers/visit-filter-reducer';
+import {
+  handleUpdatedAlias,
+  handleUpdatedDestination,
+  handleUpdatedTags,
+  handleDisplay
+} from '../../redux/reducers/url-update-reducer';
+import filterVisits from '../../lib/visits-filter';
 
 function UrlView(props) {
   const {
@@ -24,30 +32,51 @@ function UrlView(props) {
     end,
     handleVisits,
     handleStart,
-    handleEnd
+    handleEnd,
+    handleUpdatedAlias,
+    handleUpdatedDestination,
+    handleUpdatedTags,
+    handleDisplay
   } = props;
-  console.log(selectedUrl);
-  console.log(visits);
+
+  const handleFilter = async function() {
+    console.log(selectedUrl.id, start, end);
+    // handleVisits(await filterVisits(selectedUrl.id, start, end));
+  };
+
   return (
-    <Container style={!selectedUrl.id ? { display: 'none' } : null}>
+    <Container
+      style={!selectedUrl.id ? { display: 'none' } : { marginTop: '20px' }}
+    >
       <Col>
         <Row>
           <h1>{selectedUrl.alias}</h1>
         </Row>
-        <Row>
-          <p>{selectedUrl.destination}</p>
+        <Row style={{ marginBottom: '10px' }}>
+          <small>{selectedUrl.destination}</small>
         </Row>
-        <Row>
-          <Button size="sm">Edit</Button>
-          <Button size="sm" style={{ marginLeft: '15px' }}>
+        <Row style={{ marginBottom: '10px' }}>
+          <Button
+            size="sm"
+            color="primary"
+            onClick={() => {
+              handleUpdatedAlias(selectedUrl.alias);
+              handleUpdatedDestination(selectedUrl.destination);
+              handleUpdatedTags(selectedUrl.tags);
+              handleDisplay(true);
+            }}
+          >
+            Edit
+          </Button>
+          <Button size="sm" style={{ marginLeft: '15px' }} color="danger">
             Delete
           </Button>
         </Row>
-        <Row>
+        <Row style={{ marginBottom: '10px' }}>
           <strong>Total clicks:</strong>
           <p style={{ marginLeft: '10px' }}>{visits.total}</p>
         </Row>
-        <Row>
+        <Row style={{ marginBottom: '10px' }}>
           <strong>Total unique clicks:</strong>
           <p style={{ marginLeft: '10px' }}>{visits.unique}</p>
         </Row>
@@ -55,7 +84,9 @@ function UrlView(props) {
           <Row>
             <Col>
               <FormGroup>
-                <Label>Start</Label>
+                <Label>
+                  <strong>Start</strong>
+                </Label>
                 <Input
                   type="date"
                   value={start}
@@ -65,7 +96,9 @@ function UrlView(props) {
             </Col>
             <Col>
               <FormGroup>
-                <Label>End</Label>
+                <Label>
+                  <strong>End</strong>
+                </Label>
                 <Input
                   type="date"
                   value={end}
@@ -74,7 +107,9 @@ function UrlView(props) {
               </FormGroup>
             </Col>
           </Row>
-          <Button>Filter</Button>
+          <Button size="sm" onClick={() => handleFilter()}>
+            Filter
+          </Button>
         </Form>
       </Col>
     </Container>
@@ -92,5 +127,13 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { handleStart, handleEnd, handleVisits }
+  {
+    handleStart,
+    handleEnd,
+    handleVisits,
+    handleUpdatedAlias,
+    handleUpdatedDestination,
+    handleUpdatedTags,
+    handleDisplay
+  }
 )(UrlView);

@@ -3,8 +3,8 @@ const initialState = {
     total: undefined,
     unique: undefined
   },
-  start: undefined,
-  end: undefined,
+  start: '',
+  end: '',
   loading: false
 };
 

@@ -5,6 +5,7 @@ function Footer() {
   return (
     <div
       style={{
+        padding: '5px',
         borderTop: '1px solid #e7e7e7',
         position: 'absolute',
         bottom: '0',
@@ -16,16 +17,18 @@ function Footer() {
       <Container>
         <Row>
           <Col>
-            <p>
-              <small>
+            <p style={{ margin: '0' }}>
+              <small style={{ margin: '0', verticalAlign: 'middle' }}>
                 Copyright &copy; 2019 Seer Assets, LLC. All rights reserved.
               </small>
             </p>
           </Col>
           <Col>
-            <Button color="link" size="sm">
-              Sign out
-            </Button>
+            <Row>
+              <Button color="link" size="sm" className="ml-auto">
+                Sign out
+              </Button>
+            </Row>
           </Col>
         </Row>
       </Container>

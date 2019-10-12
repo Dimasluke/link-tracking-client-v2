@@ -121,9 +121,7 @@ class UrlCreate extends Component {
       handleDestination,
       handleTagInput,
       handleTags,
-      handleMessage,
-      handleLoading,
-      handleDisplay
+      handleMessage
     } = this.props;
 
     const handleAddTag = async function(e) {
@@ -152,7 +150,7 @@ class UrlCreate extends Component {
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="url-create-alias">Alias (Required)</Label>
+              <Label for="url-create-alias">Alias (Optional)</Label>
               <Input
                 type="text"
                 name="alias"
@@ -163,7 +161,7 @@ class UrlCreate extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="url-create-destination">Destination (Optional)</Label>
+              <Label for="url-create-destination">Destination (Required)</Label>
               <Input
                 type="text"
                 name="destination"
@@ -199,10 +197,16 @@ class UrlCreate extends Component {
           {mappedTags}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={() => this.handleSubmit()}>
+          <Button onClick={() => this.toggle()} color="secondary">
+            Close
+          </Button>
+          <Button
+            onClick={() => this.handleSubmit()}
+            color="primary"
+            style={{ width: '80px' }}
+          >
             {loading ? <Spinner size="sm" /> : 'Submit'}
           </Button>
-          <Button onClick={() => this.toggle()}>Cancel</Button>
         </ModalFooter>
       </Modal>
     );

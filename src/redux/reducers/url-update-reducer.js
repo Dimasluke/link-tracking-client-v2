@@ -2,7 +2,7 @@ const initialState = {
   updatedAlias: undefined,
   updatedDestination: undefined,
   updatedTags: undefined,
-  tagInput: undefined,
+  tagInput: '',
   message: undefined,
   display: false,
   loading: false
