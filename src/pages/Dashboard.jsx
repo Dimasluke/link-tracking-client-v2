@@ -26,11 +26,19 @@ import UrlMenu from '../components/url-menu/UrlMenu';
 import UrlView from '../components/url-view/UrlView';
 import Footer from '../components/footer/Footer';
 
-const domain = 'http://fanza-luke.ngrok.io';
+const domain = 'http://localhost:3000';
 
 class Dashboard extends Component {
   async componentDidMount() {
-    const { handleUser } = this.props;
+    const {
+      history,
+      handleUser,
+      handleTeamsLoading,
+      handleUrls,
+      handleTeamsSelect,
+      handleTeams,
+      handleTagsList
+    } = this.props;
 
     const token = await currentSession();
 
@@ -41,11 +49,46 @@ class Dashboard extends Component {
     }
 
     handleUser(token);
+
+    if (history.action === 'PUSH') {
+      const teams = await getTeams(token.user.username);
+
+      const teamId = localStorage.getItem('teamId');
+
+      let urls;
+      let tags;
+
+      if (teamId && teamId !== 'undefined') {
+        const team = _.filter(teams, function(team) {
+          return team.id === teamId;
+        });
+
+        if (team[0]) {
+          urls = await getUrls(team[0].title);
+          tags = await getTags(team[0].title);
+
+          handleTeamsSelect(team[0]);
+        } else {
+          tags = await getTags(token.user.username);
+          urls = await getUrls(token.user.username);
+        }
+      } else {
+        tags = await getTags(token.user.username);
+        urls = await getUrls(token.user.username);
+      }
+
+      handleTeams(teams);
+      handleUrls(urls);
+      handleTagsList(tags);
+      handleTeamsLoading(false);
+    }
   }
 
   async componentDidUpdate(prevProps) {
     const {
       user,
+      urls,
+      teams,
       selectedTeam,
       selectedUrl,
       handleTeams,
@@ -114,9 +157,19 @@ class Dashboard extends Component {
     }
 
     if (!_.isEqual(selectedUrl, prevProps.selectedUrl)) {
+      console.log('selected Url changed');
       const visits = await getVisits(selectedUrl.id);
 
       handleVisits(visits);
+    }
+
+    if (!_.isEqual(teams, prevProps.teams)) {
+      console.log('teams have changed');
+      handleResetUrl();
+    }
+
+    if (!_.isEqual(urls, prevProps.urls)) {
+      console.log('testingkasd');
     }
   }
 
@@ -153,6 +206,8 @@ class Dashboard extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user.user,
+    urls: state.getUrls.urls,
+    teams: state.getTeams.teams,
     selectedTeam: state.getTeams.selectedTeam,
     selectedUrl: state.getUrls.selectedUrl
   };

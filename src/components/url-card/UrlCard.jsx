@@ -8,10 +8,13 @@ import { handleUrlSelect } from '../../redux/reducers/url-list-reducer';
 
 function UrlCard(props) {
   const { alias, destination, tags, handleUrlSelect, id, selectedUrl } = props;
-
+  console.log(tags);
   const mappedTags = tags.map(tag => {
     return (
-      <Badge key={tag.id} color="info" style={{ marginRight: '10px' }}>
+      <Badge
+        key={tag.id}
+        style={{ marginRight: '10px', backgroundColor: tag.tagColor }}
+      >
         {tag.title}
       </Badge>
     );

@@ -1,21 +1,25 @@
 import axios from 'axios';
+import config from '../config/custom';
 
 export default async function updateUrl(
   alias,
   updatedAlias,
   updatedDestination,
-  updatedTags
+  updatedTags,
+  owner
 ) {
   const argins = {
     updatedAlias,
     updatedDestination,
-    updatedTags
+    updatedTags,
+    owner
   };
 
   try {
     await axios.request({
       url: `/v1/urls/${alias}`,
-      method: 'PATCH',
+      method: 'PUT',
+      baseURL: config.aws.baseURL,
       data: argins
     });
   } catch (error) {

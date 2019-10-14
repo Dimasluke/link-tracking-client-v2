@@ -19,7 +19,10 @@ import {
 } from '../../redux/reducers/team-create-reducer';
 import createTeam from '../../lib/teams-create';
 import getTeams from '../../lib/teams-get';
-import { handleTeams } from '../../redux/reducers/team-list-reducer';
+import {
+  handleTeams,
+  handleResetTeam
+} from '../../redux/reducers/team-list-reducer';
 
 class TeamCreate extends Component {
   async toggle() {
@@ -39,13 +42,15 @@ class TeamCreate extends Component {
       display,
       handleDisplay,
       handleTitle,
-      handleTeams
+      handleTeams,
+      handleResetTeam
     } = this.props;
 
     await createTeam(title, user.user.username);
     handleTitle('');
     handleDisplay(!display);
     handleTeams(await getTeams(user.user.username));
+    handleResetTeam();
   }
 
   render() {
@@ -94,5 +99,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { handleTitle, handleOwner, handleDisplay, handleTeams }
+  { handleTitle, handleOwner, handleDisplay, handleTeams, handleResetTeam }
 )(TeamCreate);

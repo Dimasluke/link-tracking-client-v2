@@ -90,7 +90,13 @@ class UrlUpdate extends Component {
       return { title: tag.title, owner };
     });
 
-    await updateUrl(selectedUrl.alias, updatedAlias, updatedDestination, tags);
+    await updateUrl(
+      selectedUrl.alias,
+      updatedAlias,
+      updatedDestination,
+      tags,
+      owner
+    );
     handleUrls(await getUrls(owner.id));
     handleTagsList(await getTags(owner.id));
     handleLoading(false);

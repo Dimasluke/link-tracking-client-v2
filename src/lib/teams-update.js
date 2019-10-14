@@ -14,11 +14,11 @@ export default async function updateTeam(
     updatedAdmins,
     updatedMembers
   };
-
+  console.log(argins);
   try {
     await axios.request({
       url: `/v1/teams/${id}`,
-      method: 'PATCH',
+      method: 'PUT',
       baseURL: config.aws.baseURL,
       data: argins
     });

@@ -3,22 +3,30 @@ import config from '../config/custom';
 
 export default async function createUrl(alias, destination, tags, owner) {
   const argins = {
-    alias,
+    alias: alias || undefined,
     destination,
     tags,
     owner
   };
-  console.log(argins);
+
+  let results;
+
   try {
-    await axios.request({
+    results = await axios.request({
       url: '/v1/urls',
       method: 'POST',
       baseURL: config.aws.baseURL,
       data: argins
     });
   } catch (error) {
-    console.log(error);
+    return {
+      error: true,
+      message: 'Duplicate alias. Please try again.'
+    };
   }
+
+  console.log(results);
+  console.log(results.data);
 
   return {
     message: 'URL successfully created.'

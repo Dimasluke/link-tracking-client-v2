@@ -3,7 +3,7 @@ import config from '../config/custom';
 
 export default async function deleteUrl(alias) {
   try {
-    axios.request({
+    await axios.request({
       url: `/v1/urls/${alias}`,
       method: 'DELETE',
       baseURL: config.aws.baseURL

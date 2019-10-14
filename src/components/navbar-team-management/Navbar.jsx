@@ -8,7 +8,9 @@ function Navigation(props) {
       <Navbar color="light" light expand="md">
         <Nav className="mr-auto">
           <NavItem>
-            <Link to="/">Return</Link>
+            <Link to={{ pathname: '/', state: { fromTeamManagement: true } }}>
+              Return
+            </Link>
           </NavItem>
         </Nav>
       </Navbar>

@@ -16,7 +16,7 @@ import TeamCreate from '../components/team-create/TeamCreate';
 import TeamUpdate from '../components/team-update/TeamUpdate';
 import TeamView from '../components/team-view/TeamView';
 
-const domain = 'http://fanza-luke.ngrok.io';
+const domain = 'http://localhost:3000';
 
 class TeamManagement extends Component {
   async componentDidMount() {

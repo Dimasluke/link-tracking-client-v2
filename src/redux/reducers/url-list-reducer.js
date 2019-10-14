@@ -30,7 +30,7 @@ function reducer(state = initialState, action) {
     case RESET_URL:
       return {
         ...state,
-        url: {
+        selectedUrl: {
           alias: '',
           destination: '',
           createdAt: '',

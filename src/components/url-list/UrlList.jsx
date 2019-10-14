@@ -28,6 +28,7 @@ function UrlList(props) {
 }
 
 const mapStateToProps = state => {
+  console.log(state.getUrls.urls);
   return {
     urls: state.getUrls.urls
   };

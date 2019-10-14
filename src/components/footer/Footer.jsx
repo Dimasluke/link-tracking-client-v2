@@ -1,7 +1,13 @@
 import React from 'react';
 import { Container, Col, Row, Button } from 'reactstrap';
+import destroySession from '../../lib/destroy-session';
 
 function Footer() {
+  const handleSignout = async function() {
+    await destroySession();
+    window.location.href = 'http://localhost:3000';
+  };
+
   return (
     <div
       style={{
@@ -25,7 +31,12 @@ function Footer() {
           </Col>
           <Col>
             <Row>
-              <Button color="link" size="sm" className="ml-auto">
+              <Button
+                color="link"
+                size="sm"
+                className="ml-auto"
+                onClick={() => handleSignout()}
+              >
                 Sign out
               </Button>
             </Row>

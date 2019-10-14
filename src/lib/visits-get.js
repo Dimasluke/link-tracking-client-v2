@@ -2,7 +2,10 @@ import axios from 'axios';
 import config from '../config/custom';
 
 export default async function getVisits(id) {
-  console.log(id);
+  if (!id) {
+    return 'No url id provided.';
+  }
+
   let visits;
 
   try {
@@ -14,6 +17,6 @@ export default async function getVisits(id) {
   } catch (error) {
     console.log(error);
   }
-  console.log(visits);
+
   return visits.data;
 }

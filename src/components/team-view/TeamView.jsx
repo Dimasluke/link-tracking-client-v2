@@ -41,7 +41,7 @@ class TeamView extends Component {
     const { selectedTeam, user, handleTeamsSelect, handleTeams } = this.props;
 
     selectedTeam.members.push(addMemberInput);
-
+    console.log('test');
     await updateTeam(
       selectedTeam.id,
       selectedTeam.title,
