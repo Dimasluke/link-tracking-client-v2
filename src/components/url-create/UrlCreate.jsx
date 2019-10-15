@@ -136,7 +136,8 @@ class UrlCreate extends Component {
       handleAlias,
       handleDestination,
       handleTagInput,
-      handleTags
+      handleTags,
+      handleMessage
     } = this.props;
 
     const handleAddTag = async function(e) {
@@ -172,7 +173,10 @@ class UrlCreate extends Component {
                 id="url-create-alias"
                 bsSize="sm"
                 value={alias}
-                onChange={e => handleAlias(e.target.value)}
+                onChange={e => {
+                  handleMessage('');
+                  handleAlias(e.target.value);
+                }}
               />
             </FormGroup>
             <FormGroup>

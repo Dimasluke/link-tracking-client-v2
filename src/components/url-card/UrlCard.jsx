@@ -34,7 +34,7 @@ function UrlCard(props) {
         <Col xs="10">
           <Row style={{ marginBottom: '10px' }}>
             <a
-              href={`https://rigszdctid.execute-api.us-east-1.amazonaws.com/dev/v1/urls/${alias}`}
+              href={`https://rigszdctid.execute-api.us-east-1.amazonaws.com/dev/v1/urls/redirect/${alias}`}
               target="_blank"
               rel="noopener noreferrer"
             >
