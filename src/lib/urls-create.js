@@ -1,6 +1,22 @@
 import axios from 'axios';
 import config from '../config/custom';
 
+const checkExistingAlias = async function(alias) {
+  let url;
+
+  try {
+    url = await axios.request({
+      url: `/v1/urls/${alias}`,
+      method: 'GET',
+      baseURL: config.aws.baseURL
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  return url.data;
+};
+
 export default async function createUrl(alias, destination, tags, owner) {
   const argins = {
     alias: alias || undefined,
@@ -9,26 +25,28 @@ export default async function createUrl(alias, destination, tags, owner) {
     owner
   };
 
-  let results;
+  const isExistingAlias = await checkExistingAlias(alias);
 
-  try {
-    results = await axios.request({
-      url: '/v1/urls',
-      method: 'POST',
-      baseURL: config.aws.baseURL,
-      data: argins
-    });
-  } catch (error) {
+  if (isExistingAlias) {
     return {
       error: true,
       message: 'Duplicate alias. Please try again.'
     };
   }
 
-  console.log(results);
-  console.log(results.data);
+  try {
+    await axios.request({
+      url: '/v1/urls',
+      method: 'POST',
+      baseURL: config.aws.baseURL,
+      data: argins
+    });
+  } catch (error) {
+    console.log(error);
+  }
 
   return {
+    error: false,
     message: 'URL successfully created.'
   };
 }

@@ -18,7 +18,8 @@ import {
   Col,
   Button,
   Badge,
-  Spinner
+  Spinner,
+  FormFeedback
 } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import {
@@ -39,7 +40,7 @@ import getTags from '../../lib/tags-get';
 class UrlCreate extends Component {
   constructor(props) {
     super(props);
-    this.state = { tags: [] };
+    this.state = { tags: [], destinationError: false };
   }
 
   async componentDidUpdate(prevProps) {
@@ -69,8 +70,15 @@ class UrlCreate extends Component {
       selectedTeam,
       handleLoading,
       handleUrls,
-      handleTagsList
+      handleTagsList,
+      handleMessage
     } = this.props;
+
+    if (!destination) {
+      this.setState({ destinationError: true });
+      return;
+    }
+
     handleLoading(true);
     let { tags } = this.props;
 
@@ -82,7 +90,14 @@ class UrlCreate extends Component {
       return { title: tag, owner };
     });
 
-    await createUrl(alias, destination, tags, owner);
+    const response = await createUrl(alias, destination, tags, owner);
+
+    if (response.error) {
+      handleLoading(false);
+      handleMessage(response.message);
+      return;
+    }
+
     handleUrls(await getUrls(owner.id));
     handleTagsList(await getTags(owner.id));
     handleLoading(false);
@@ -109,6 +124,7 @@ class UrlCreate extends Component {
   }
 
   render() {
+    const { destinationError } = this.state;
     const {
       alias,
       destination,
@@ -120,8 +136,7 @@ class UrlCreate extends Component {
       handleAlias,
       handleDestination,
       handleTagInput,
-      handleTags,
-      handleMessage
+      handleTags
     } = this.props;
 
     const handleAddTag = async function(e) {
@@ -168,8 +183,15 @@ class UrlCreate extends Component {
                 id="url-create-destination"
                 bsSize="sm"
                 value={destination}
-                onChange={e => handleDestination(e.target.value)}
+                invalid={destinationError}
+                onChange={e => {
+                  this.setState({ destinationError: false });
+                  handleDestination(e.target.value);
+                }}
               />
+              <FormFeedback>
+                URL destination is required, Please try again.
+              </FormFeedback>
             </FormGroup>
           </Form>
           <Form onSubmit={e => handleAddTag(e)}>
@@ -195,6 +217,7 @@ class UrlCreate extends Component {
             </FormGroup>
           </Form>
           {mappedTags}
+          {message ? <p style={{ color: 'red' }}>{message}</p> : null}
         </ModalBody>
         <ModalFooter>
           <Button onClick={() => this.toggle()} color="secondary">

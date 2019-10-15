@@ -48,6 +48,26 @@ class MemberCard extends Component {
     this.updateTeamsPage();
   }
 
+  async handleRemoveAdmin(member) {
+    const { selectedTeam } = this.props;
+
+    const indexOf = selectedTeam.admins.findIndex(value => value === member);
+
+    if (indexOf > 0) {
+      selectedTeam.admins.splice(indexOf, 1);
+    }
+
+    await updateTeam(
+      selectedTeam.id,
+      selectedTeam.title,
+      selectedTeam.captain,
+      [...new Set(selectedTeam.admins)],
+      selectedTeam.members
+    );
+
+    this.updateTeamsPage();
+  }
+
   async handleAddAdmin(member) {
     const { selectedTeam } = this.props;
 
@@ -104,6 +124,18 @@ class MemberCard extends Component {
                 color="danger"
               >
                 Remove
+              </Button>
+            ) : null}
+            {selectedTeam.captain === user.user.username &&
+            isAdmin &&
+            member !== user.user.username ? (
+              <Button
+                size="sm"
+                color="danger"
+                style={{ marginLeft: '10px' }}
+                onClick={() => this.handleRemoveAdmin(member)}
+              >
+                Remove Admin
               </Button>
             ) : null}
             {!isAdmin && selectedTeam.admins.includes(user.user.username) ? (
